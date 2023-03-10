@@ -1,0 +1,26 @@
+{
+  "name": "tienda_zapatillas",
+  "version": "1.0.0",
+  "description": "Proyecto Final Silicon",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Al3Godoy/AleGodoyAlmaraz.git"
+  },
+  "author": "Aleandro N Godoy Almaraz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Al3Godoy/AleGodoyAlmaraz/issues"
+  },
+  "homepage": "https://github.com/Al3Godoy/AleGodoyAlmaraz#readme",
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "react": "^18.2.0",
+    "react-data-table-component": "^7.5.3",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.2"
+  }
+}
