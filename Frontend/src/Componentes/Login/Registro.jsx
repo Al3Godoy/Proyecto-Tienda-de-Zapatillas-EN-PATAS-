@@ -3,17 +3,18 @@ import { Link } from "react-router-dom";
 import * as API from '../../servicios/servicios'
 
 export function Registro(){
-    const [username, setUsername] = useState('');
+    const [usuario, setUsuario] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-    const [apellido_nombre, setApellidonombre] = useState('');
+    const [nombre_apellido, setNombre_Apellido] = useState('');
+    const [DNi, setDNi] = useState('');
     const [mensajeSuccess, setmensajeSuccess] = useState('');
     const [mensajeError, setmensajeError] = useState('');
 
 
     const registroForm  = async (event)=>{
         event.preventDefault();
-        const user = await API.Registro({username, password, email, apellido_nombre})
+        const user = await API.Registro({usuario, password, email, nombre_apellido})
         if(user.status){
             setmensajeSuccess(user.mensaje)
             setTimeout(()=>{
@@ -55,7 +56,7 @@ export function Registro(){
                   value={username} 
                   className="form-control" 
                   placeholder="Nombre del Usuario" 
-                  onChange={(event)=>setUsername(event.target.value)} />
+                  onChange={(event)=>setUsuario(event.target.value)} />
                   
                   <small id="helpId" className="text-muted">&nbsp;</small>
                 </div>
@@ -81,15 +82,33 @@ export function Registro(){
                   <small id="helpId" className="text-muted">&nbsp;</small>
                 </div>
                 <div className="form-group">
-                  <label for="">Apellido y Nombre de Usuario</label>
+                  <label for=""> Nombre y Apelllido de Usuario</label>
                   <input 
                   type="text" required
                   value={apellido_nombre} 
                   className="form-control" 
-                  placeholder="Apellido y Nombre de Usuario" 
-                  onChange={(event)=>setApellidonombre(event.target.value)} />
+                  placeholder="Nombre y Apelllido de Usuario" 
+                  onChange={(event)=>setnombre_apellido(event.target.value)} />
                   <small id="helpId" className="text-muted">&nbsp;</small>
                 </div>
+                <div className="form-group">
+                  <label for=""> DNi (sin puntos) </label>
+                  <input 
+                  type="text" required
+                  value={DNi} 
+                  className="form-control" 
+                  placeholder="DNi de Usuario" 
+                  onChange={(event)=>setDNi(event.target.value)} />
+                  <small id="helpId" className="text-muted">&nbsp;</small>
+                </div>
+                <div> 
+                    <select class="form-select form-select-sm" aria-label=".form-select-sm example">
+                     <option selected>Open this select menu</option>
+                     <option value="1">Cliente</option>
+                     <option value="2">Proveedor</option>
+                     <option value="3">Empleado</option>
+                    </select>
+                </div>     
                 <div className="form-group">
                     <button type="submit" className="btn btn-primary">Guardar</button>
                     <Link to={'/'}><button type="button" className="btn btn-secondary">Volver</button></Link>
@@ -99,7 +118,7 @@ export function Registro(){
             </div>
             
             <div className="card-footer text-muted">
-               Silicon Misiones
+               EN PATAS
             </div>
         </div>
         </div>

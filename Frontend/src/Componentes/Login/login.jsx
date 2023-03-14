@@ -3,13 +3,13 @@ import { Link } from "react-router-dom"
 import * as API from '../../servicios/servicios'
 
 export function Login(){
-    const [username, setUsername] = useState('');
+    const [usuario, setUsuario] = useState('');
     const [password, setPassword] = useState('');
      const [mensajeError, setmensajeError] = useState('');
 
     const enviarForm  = async (event)=>{
         event.preventDefault();
-        const user = await API.Login({username, password})
+        const user = await API.Login({usuario, password})
         if(user.status){
             // console.log(user.token);
              window.localStorage.setItem('usuario', JSON.stringify(user));
@@ -29,7 +29,7 @@ export function Login(){
      <div className="container">
         <div className="form-signin w-100 m-auto">
         <form onSubmit={enviarForm}>
-                <h1 class="h3 mb-3 fw-normal">Ingresar sus datos</h1>
+                <h1 class="h3 mb-3 fw-normal">Escriba sus datos</h1>
                 {
                     mensajeError?
                     <div class="alert alert-danger" role="alert">

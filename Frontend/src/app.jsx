@@ -1,16 +1,16 @@
 import { Routes, Route, Link } from 'react-router-dom'
-import { ListCursos } from './componentes/cursos/ListCursos'
-import { CreaCurso } from './componentes/cursos/CreaCurso'
+import { ListaPedidos } from './componentes/Pedidos/ListaPedidos'
+import { CreaTipo_Calzado } from './componentes/Tipos_Calzados/CrearTipo_Calzado'
 import { Principal } from './componentes/panel/Principal'
-import { ListAlumnos } from './componentes/alumnos/ListAlumnos'
-import { CreaAlumno } from './componentes/alumnos/CreaAlumno'
+import { ListaClientes } from './componentes/clientes/ListaClientes'
+import { CreaMarca_Calzado } from './componentes/Marcas_Calzados/CrearMarca_Calzado'
 import { Login } from './componentes/login/Login'
 import { Menu } from './componentes/panel/Menu'
 import { Registro } from './componentes/login/Registro'
 import { useEffect, useState } from 'react'
-import { ListUsuarios } from './componentes/usuarios/ListUsuarios'
-import { EditarCurso } from './componentes/cursos/EditarCurso'
-import { EditarAlumno } from './componentes/alumnos/EditarAlumno'
+import { ListaUsuarios } from './componentes/ListaUsuarios/ListaUsuarios'
+import { EditarPedido } from './componentes/Pedidos/EditarPedido'
+import { EditarCliente } from './componentes/clientes/EditarCliente'
 
 
 function App() {
@@ -37,13 +37,21 @@ function App() {
          <Menu/> 
          <Routes>
              <Route path='/' element={<Principal/>}></Route>
-             <Route path='/listar_cursos' element={<ListCursos/>}></Route>
-             <Route path='/crear_cursos' element={<CreaCurso/>} ></Route>
-             <Route path='/editar_curso/:id_curso' element={<EditarCurso/>} ></Route>
-             <Route path='/listar_alumnos' element={<ListAlumnos/>} ></Route>
-             <Route path='/crear_alumnos' element={<CreaAlumno/>} ></Route>
-             <Route path='/listar_usuarios' element={<ListUsuarios/>} ></Route>
-             <Route path='/editar_alumno/:id_alumno' element={<EditarAlumno/>} ></Route>
+             <Route path='/listar_pedidos' element={<ListaPedidos/>}></Route>
+             <Route path='/crear_tipo_calzado' element={<CreaTipo_Calzado/>} ></Route>
+             <Route path='/editar_pedido/:id_pedido' element={<EditarPedido/>} ></Route>
+             <Route path='/listar_clientes' element={<ListaClientes/>} ></Route>
+             <Route path='/crear_marca_calzado' element={<CreaMarca_Calzado/>} ></Route>
+             <Route path='/listar_usuarios' element={<ListaUsuarios/>} ></Route>
+             <Route path='/editar_cliente/:id.cliente' element={<EditarCliente/>} ></Route>
+             <Route path='/editar_tipo_calzado/:id.tipo_calzado' element={<EditarTipo_Calzado/>} ></Route>
+             <Route path='/listar_tipo_calzado' element={<ListaTipo_Calzado/>} ></Route>
+             <Route path='/editar_marca_calzado/:id.marca_calzado' element={<EditarMarca_Calzado/>} ></Route>
+             <Route path='/listar_marca_calzado' element={<ListaMarca_Calzado/>} ></Route>
+             <Route path='/crear_marca_calzado' element={<CreaMarca_Calzado/>} ></Route>
+             <Route path='/listar_proveedores' element={<ListaProveedores/>} ></Route>
+             <Route path='/editar_proveedor/:id.proveedor' element={<Editar_Proveedor/>} ></Route>
+
 
           </Routes>
         </div>
