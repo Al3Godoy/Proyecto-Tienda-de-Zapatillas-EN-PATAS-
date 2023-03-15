@@ -5,8 +5,8 @@ import * as API from '../../servicio/servicio'
 import { } from 'bootstrap';
 import DataTable from 'react-data-table-component';
 
-export function ListaMarcas_Calzados(){
-    const [marcas_calzados, setMarcas_Calzados] =useState([]);
+export function ListaTipo_Calzados(){
+    const [tipo_calzados, setTipo_Calzados] =useState([]);
     const [color, setColor] =useState('');
     const [mensajeSuccess, setmensajeSuccess] = useState('')
     const [mensajeSuccessDescripcion, setmensajeSuccessDescripcion] = useState('')
@@ -14,17 +14,17 @@ export function ListaMarcas_Calzados(){
     // los filtros de busqueda
     const [descripcion, setDescripcion] = useState('');
     const [stock, setStock] = useState([]);
-    const [id_marca_calzado, setIdMarca_Calzado] = useState();
+    const [id_tipo_calzado, setIdTipo_Calzado] = useState();
     const [id_stock, setIdStock] = useState();
    
 };
     // aqui se carga por primera vez la variable
 useEffect(()=>{
-    API.getmarca_calzado().then(getMarcas_Calzados)
+    API.gettipo_calzado().then(getTipo_Calzados)
 },[]);
 
 // esta es la funcion para cambiar de estado 
-const CambioEstadoMarcas_Calzados  = async(id, estado)=>{
+const CambioEstadoTipo_Calzados  = async(id, estado)=>{
     if(estado=='a'){
         setColor('danger')
     }else{
@@ -34,7 +34,7 @@ const CambioEstadoMarcas_Calzados  = async(id, estado)=>{
     const datos_enviar={
         estado: estado
     };
-    const respuesta = await API.CambioEstadoMarcas_Calzados(id, datos_enviar)
+    const respuesta = await API.CambioEstadoTipo_Calzados(id, datos_enviar)
     if(respuesta.status){
         setmensajeSuccess(respuesta.mensaje)
         
@@ -51,43 +51,44 @@ const CambioEstadoMarcas_Calzados  = async(id, estado)=>{
     }
     
 };
-// funcion para buscar marca de calzado
-const buscar_marca_calzado = ()=>{
+// funcion para buscar tipo de calzado 
+const buscar_tipo_calzado = ()=>{
     
     const filtros={
         descripcion: descripcion
-    };
-    API.Buscar_Marca_Calzado(filtros).then(setMarcas_Calzados);
+    }
+
+    API.Buscar_Tipo_Calzado(filtros).then(setTipo_Calzados);
    
 };
 
 const limpiar_filtros = ()=>{
-    setDescripcion(''),
+    setDescripcion('')
     
-    API.getMarcas_Calzados().then(setMarcas_Calzados)
+    API.getTipo_Calzados().then(setTipo_Calzados)
    
-}
+};
 
 
-const grabar_marca_calzado  = async()=>{
+const grabar_tipo_calzado  = async()=>{
 
     const datos_enviar={
-        id_marca_calzado: id_stock,
+        id_tipo_calzado: id_stock,
         id_stock: id_pedido,
-        descripcion: 'http://url/ruta/'+id_pedido
+        descripcion: 'http://url/router/'+id_pedido
     };
-     API.SaveMarca_Calzado(datos_enviar);
-    setmensajeSuccessMarca_Calzado;('Se Cargo su Pedido con Gran Exito')
+     API.SaveTipo_CalzadoStock(datos_enviar);
+    setmensajeSuccessTipo_Calzado('Se Cargo su Pedido con Gran Exito')
     setTimeout(()=>{
-        setmensajeSuccessMarca_Calzado('')
-        trae_marca_calzado_stock(id_pedido)
+        setmensajeSuccessTipo_Calzado('')
+        trae_tipo_calzado_stock(id_pedido)
     }, 4000)
 }
 
 const columns = [
     {
       name: 'ID',
-      selector: row => row.id_marca_calzado
+      selector: row => row.id_tipo_calzado
     },
     {
       name: 'DESCRIPCION',
@@ -99,30 +100,29 @@ const columns = [
             (row.estado=='a')? 
             <button
                 className="btn btn-outline btn-xs"
-                onClick={(e) => handleButtonClick(e, row.id_marca_calzado)}
+                onClick={(e) => handleButtonClick(e, row.id_tipo_calzado)}
             >
                 Baja
             </button>
             :
             <button
                 className="btn btn-outline btn-xs"
-                onClick={(e) => handleButtonClick(e, row.id_marca_calzado)}
+                onClick={(e) => handleButtonClick(e, row.id_tipo_calzado)}
             >
                 Alta
             </button>
             
 
-        ),
-        }
-    ]
+        )
+    } ]
 
     export default function MyComponent() {
         const handleClick = (id) => {
           console.log("el Id es", id);
         };
     }
-
-return(
+    return(
+        
         <div className="card">
             {
                 mensajeSuccess?
@@ -130,11 +130,12 @@ return(
                     {mensajeSuccess}
                 </div>:''
             }
+    
              <div className="card">
-                <div className="card-header">
+                    <div className="card-header">
                     Filtros de busqueda
-                </div>
-                <div className="card-body">
+                    </div>
+                    <div className="card-body">
                     <div className='row'>
                         <div className='col-3'>
                             <label>Descripcion </label>
@@ -148,7 +149,7 @@ return(
                        
                     <div className='row mt-3'>
                         <div className='col-6' >
-                        <button onClick={buscar_marca_calzado}  className='btn btn-primary'>Buscar</button>
+                            <button onClick={buscar_tipo_calzado}  className='btn btn-primary'>Buscar</button>
                             <button onClick={limpiar_filtros}  className='btn btn-dark'>Limpiar Filtros</button>
                         </div>                     
 
@@ -157,7 +158,7 @@ return(
                     
                 </div>
             </div>
-        </div>
+         </div>   
            
             <div className="card-footer text-muted">
                 EN PATAS
@@ -167,7 +168,7 @@ return(
             <div className="modal-dialog modal-lg">
                 <div className="modal-content">
                 <div className="modal-header">
-                    <h1 className="modal-title fs-5" id="exampleModalLabel">Nueva Marca</h1>
+                    <h1 className="modal-title fs-5" id="exampleModalLabel">Nuevo Tipo de Calzado</h1>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
@@ -180,15 +181,16 @@ return(
                 <div className="form-group">
                 <div className='row'>
                         <div className='col-4'>
-                            <label for="">Nombre de la Marca</label>
-                            <select onChange={(event)=>setIdMarca_Calzado(event.target.value)} className='form-control'>
+                            <label for="">Nombre del tipo de calzado</label>
+                   
+                            <select onChange={(event)=>setIdTipo_Calzado(event.target.value)} className='form-control'>
                                     <option>Seleccionar una Marca</option>
                                         {
                                     cursos?
                                     cursos.map((c)=>(
                                         <option value={c.id_marca_calzado}>{c.descripcion}</option>
                                     )):
-                                        <option value='F'>todas las marcas fueron seleccionadas</option>
+                                        <option value='F'>No hay más tipos de calzado</option>
                                     }
                                 </select>
                         </div>
@@ -198,12 +200,12 @@ return(
                             id='descripcion'
                             disabled
                             className='form-control'
-                            value={'url/ruta/'+id_marca_calzado} 
+                            value={'url/ruta/'+id_tipo_calzado} 
                             
                             />
                         </div>
                  </div>    
-                <button type="button" onClick={() => grabar_marca_calzado()}  className="btn btn-primary" >Guardar</button>
+                <button type="button" onClick={() => grabar_tipo_calzado()}  className="btn btn-primary" >Guardar</button>
                    
                  
                 </div>
@@ -212,16 +214,16 @@ return(
                         <tr>
                             
                             <th>Descripcion</th>
-                                                      
+                                                       
                         </tr>
                     </thead>
                     <tbody>
                     {
-                    carga?
-                    carga.map((carga)=>(
+                    cargar?
+                    cargar.map((cargar)=>(
                             <tr>
-                                <td scope="row">{carga.descripcion}</td>
-                              
+                                
+                                <td scope="row">{cargar.descripcion}</td>
                                 </tr>
                     ))
                     :
@@ -236,6 +238,5 @@ return(
                 </div>
             </div>
         </div>
-   </div>
-    )
-    
+    </div>
+    ) 

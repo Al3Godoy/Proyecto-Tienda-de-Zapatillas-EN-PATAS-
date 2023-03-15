@@ -5,32 +5,30 @@ import * as API from '../../servicios/servicios'
 import { } from 'bootstrap';
 import DataTable from 'react-data-table-component';
 
-export function ListaProveedores(){
-    const [clientes, setClientess] =useState([]);
-    const [color, setColor] =useState('');
+export function ListaPedidos(){
+    const [pedidos, setPedidos] = useState([]);
+    const [color, setColor] = useState('');
     const [mensajeSuccess, setmensajeSuccess] = useState('')
-    const [mensajeSuccessInscripcion, setmensajeSuccessInscripcion] = useState('')
+    const [mensajeSuccessSolicitudPedido, setmensajeSuccessSolicitudPedido] = useState('')
 
     // los filtros de busqueda
-    const [nombre_apellido, setNombre_Apellido] = useState('');
-    const [DNi, setDni] = useState('');
-    const [usuario, setUsuario] = useState('');
-    const [email, setEmail] = useState('');
+    const [id_pedido, setIdPedido] = useState('');
+    const [id_cliente, setIdCliente] = useState('');
+    const [fecha_entrega, setFecha_Entrega] = useState('');
+    const [cantidad, setCantidad] = useState('');
 
-    const [solicitud, setSolicitud] = useState([]);
-    const [pedidos, setPedidos] = useState([]);
-    const [id_cliente, setIdCliente] = useState();
+    const [solicitudpedido, setSolicitudPedido] = useState([]);
+    const [id_cliente_pedido, setIdCliente_Pedido] = useState();
     const [id_pedido, setIdPedidos] = useState();
-   
-
+}
     // aqui se carga por primera vez la variable
 useEffect(()=>{
-    API.getclientes().then(getClientes)
+    API.getpedidos().then(getPedidos)
 },[]);
 
 // esta es la funcion para cambiar de estado 
-const CambioEstadoClientes  = async(id, estado)=>{
-    if(estado=='B'){
+const CambioEstadoPedidos  = async(id, estado)=>{
+    if(estado=='b'){
         setColor('danger')
     }else{
         setColor('success')
@@ -39,7 +37,7 @@ const CambioEstadoClientes  = async(id, estado)=>{
     const datos_enviar={
         estado: estado
     };
-    const respuesta = await API.CambioEstadoClientes(id, datos_enviar)
+    const respuesta = await API.CambioEstadoPedidos(id, datos_enviar)
     if(respuesta.status){
         setmensajeSuccess(respuesta.mensaje)
         
@@ -57,47 +55,39 @@ const CambioEstadoClientes  = async(id, estado)=>{
     
 }
 // funcion para buscar alumnos 
-const buscar_cliente = ()=>{
+const buscar_pedido = ()=>{
     
     const filtros={
-        nombre_apellido: nombre_apellido,
-        DNi: DNi,
-        usuario: usuario,
-        email: email,
+        id_pedido: id_pedido,
+        id_cliente: id_cliente,
+        fecha_entrega: fecha_entrega,
+        cantidad: cantidad,
     };
 
-    API.BuscarClientes(filtros).then(setClientes);
+    API.BuscarPedidos(filtros).then(setpedidos);
    
 }
 
 const limpiar_filtros = ()=>{
-    setNombre_Apellido('')
-    setDni('')
-    setUsuario('')
-    email('')
-    API.getClientes().then(setClientes)
+    setId_Pedido('')
+    setId_cliente('')
+    setfecha_entrega('')
+    setcantidad('')
+    API.getPedidos().then(setPedidos)
    
 }
 // funcion que carga el modal 
 const trae_solicitudpedido_cliente = async(id)=>{
-    setIdAlumno(id)
-    setInscripcion([])
-    setCursos([])
+    setIdPedido(id)
+    setSolicitudPedido([])
+    setCliente([])
     const datos = await API.getSolicitudPedidoByIdCliente(id)
-    // const arrayCursos = await API.getCursosSinAsignar(id)
-    //  setCursos(arrayCursos)
-    //  if(datos.status){
-    //     setInscripcion(datos.registros)
-    //  }
-}
-
-
-
+   
 const grabar_solicitudpedido_cliente  = async()=>{
 
     const datos_enviar={
-        id_alumno: id_cliente,
-        id_curso: id_pedido,
+        id_pedido: id_cliente,
+        id_cliente: id_pedido,
         descripcion: 'http://url/ruta/'+id_cliente
     };
     // console.log(datos_enviar)
@@ -112,47 +102,42 @@ const grabar_solicitudpedido_cliente  = async()=>{
 const columns = [
     {
       name: 'ID',
-      selector: row => row.id_cliente
+      selector: row => row.id_pedido
     },
     {
-      name: 'CLIENTE',
-      selector: row => row.nombre_apellido+'
-    },
-    {
-      name: 'DNI',
-      selector: row => row.DNi
-    },
-    {
-        name: 'EMAIL',
-        selector: row => row.email
+        name: 'ID',
+        selector: row => row.id_cliente
       },
-      {
-        name: 'DOMICILIO',
-        selector: row => row.domicilio
-      },
+    {
+      name: 'FECHA_ENTREGA',
+      selector: row => row.fecha_entrega
+    },
+    {
+      name: 'CANTDAD',
+      selector: row => row.cantidad
+    },
+  
     {
         cell: (row) => (
-            (row.estado=='A')? 
+            (row.estado=='a')? 
             <button
                 className="btn btn-outline btn-xs"
-                onClick={(e) => handleButtonClick(e, row.id_alumno)}
+                onClick={(e) => handleButtonClick(e, row.id_pedido)}
             >
                 Baja
             </button>
             :
             <button
                 className="btn btn-outline btn-xs"
-                onClick={(e) => handleButtonClick(e, row.id_alumno)}
+                onClick={(e) => handleButtonClick(e, row.id_pedido)}
             >
                 Alta
             </button>
             
 
         ),
-    //  cell:() => <button onClick={Click(row.id_curso)} id={row.id_curso} type="button" className="btn btn-warning">Editar</button>
-    }
-
-  ]
+ 
+        } ]
 
   const handleButtonClick = (e, id) => {
     e.preventDefault();
@@ -174,42 +159,41 @@ const columns = [
                 <div className="card-body">
                     <div className='row'>
                         <div className='col-3'>
-                            <label>Apellido </label>
+                            <label>id_pedido </label>
                             <input 
-                            id='apellido'
+                            id='id_pedido'
                             className='form-control'
-                            value={apellido} 
-                            onChange={(event)=>setApellido(event.target.value)}
+                            value={id_pedido} 
+                            onChange={(event)=>setIdPedido(event.target.value)}
                             />
                         </div>
                         <div className='col-3'>
-                            <label>Nombre </label>
+                            <label>id_cliente </label>
                             <input 
-                            id='nombre'
+                            id='id_cliente'
                             className='form-control'
                             value={nombre} 
-                            onChange={(event)=>setNombre(event.target.value)}
+                            onChange={(event)=>setIdCliente(event.target.value)}
                             />
                         </div>
                         <div className='col-3'>
-                            <label>Dni </label>
+                            <label>fecha_entrega </label>
                             <input 
-                            value={dni} 
-                            onChange={(event)=>setDni(event.target.value)}
+                            value={fecha_entrega} 
+                            onChange={(event)=>setFecha_Entrega(event.target.value)}
                             className='form-control'/>
                         </div>
                         <div className='col-3'>
-                            <label>Sexo </label>
-                            <select onChange={(event)=>setSexo(event.target.value)} className='form-control'>
-                                <option>Seleccionar filtro</option>
-                                <option value='M'>Masculino</option>
-                                <option value='F'>Femenino</option>
-                            </select>
-                        </div>
+                        <label>cantidad </label>
+                        <input 
+                        value={cantidad} 
+                        onChange={(event)=>setCantidad(event.target.value)}
+                        className='form-control'/>
+                    </div>
                     </div>
                     <div className='row mt-3'>
                         <div className='col-6' >
-                            <button onClick={buscar_alumno}  className='btn btn-primary'>Buscar</button>
+                            <button onClick={buscar_pedido}  className='btn btn-primary'>Buscar</button>
                             <button onClick={limpiar_filtros}  className='btn btn-dark'>Limpiar Filtros</button>
                         </div>
                         
@@ -220,69 +204,9 @@ const columns = [
                 </div>
             </div>
             
-            <div className="card-header">
-                Listado de alumnos 
-            </div>
            
-            <div className="card-body">
-            <Link name="" id="" className="btn btn-primary" to={'/crear_alumnos'} role="button">Nuevo Alumno</Link>
-            <DataTable columns={columns} data={alumnos} />
-                {/* <table className="table table-striped table-inverse table-responsive">
-                    <thead className="thead-inverse">
-                        <tr>
-                            <th>ID</th>
-                            <th>Apellido</th>
-                            <th>Nombre</th>
-                            <th>DNI</th>
-                            <th>Sexo</th>
-                            <th>Domicilio</th>
-                            <th>Estado Civil</th>
-                            <th>Estado</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {alumnos.map((alumno)=>(
-                            <tr>
-                                <td scope="row">{alumno.id_alumno}</td>
-                                <td>{alumno.apellido}</td>
-                                <td>{alumno.nombre}</td>
-                                <td>{alumno.dni}</td>
-                                <td>{alumno.sexo}</td>
-                                <td>{alumno.domicilio}</td>
-                                <td>{alumno.estado_civil}</td>
-                                <td>
-                                    <span className="badge bg-info">
-                                        {
-                                        (alumno.estado=='A'?'Activo':'Baja')
-                                        }
-                                    </span>
-                                </td>
-                                
-                                <td>
-                                    <div className="btn-group" role="group" aria-label="">
-                                        { (alumno.estado=='A')? 
-                                        <>
-                                        <Link to={`/editar_alumno/${alumno.id_alumno}`}>
-                                         <button type="button" className="btn btn-warning">Editar</button>
-                                        </Link> 
-                                       
-                                        <button type="button"  onClick={() => trae_inscripciones_alumno(alumno.id_alumno)}  data-bs-toggle="modal" data-bs-target="#exampleModal" className="btn btn-secondary">Inscripciones</button>
-                                       
-                                        <button onClick={() => CambioEstadoAlumno(alumno.id_alumno, 'B')} type="button" className="btn btn-danger">Dar de baja</button>
-                                        </>
-                                        :
-                                        <button onClick={() => CambioEstadoAlumno(alumno.id_alumno, 'A')} type="button" className="btn btn-success">Dar de alta</button>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                        ))}
-                        </tbody>
-                </table> */}
-            </div>
             <div className="card-footer text-muted">
-                Silicon Misiones
+                EN PATAS
             </div>
         </div>
         
@@ -290,44 +214,44 @@ const columns = [
             <div className="modal-dialog modal-lg">
                 <div className="modal-content">
                 <div className="modal-header">
-                    <h1 className="modal-title fs-5" id="exampleModalLabel">Inscripciones</h1>
+                    <h1 className="modal-title fs-5" id="exampleModalLabel">SolicitudPedido</h1>
                     <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div className="modal-body">
                 {
-                mensajeSuccessInscripcion?
+                mensajeSuccessSolicitudPedido?
                     <div className="alert alert-success" role="alert">
-                        {mensajeSuccessInscripcion}
+                        {mensajeSuccessSolicitudPedido}
                     </div>:''
                 }
                 <div className="form-group">
                 <div className='row'>
                         <div className='col-4'>
-                            <label for="">Nombre del curso</label>
-                            {/* lo ponga aca el nombre que es:  {curso} */}
-                            <select onChange={(event)=>setIdCurso(event.target.value)} className='form-control'>
-                                    <option>Seleccionar un curso</option>
+                            <label for="">Pedido numero de ID</label>
+                          
+                            <select onChange={(event)=>setIdPedido(event.target.value)} className='form-control'>
+                                    <option>Seleccionar Pedido</option>
                                         {
-                                    cursos?
-                                    cursos.map((c)=>(
-                                        <option value={c.id_curso}>{c.nombre}</option>
+                                    pedidos?
+                                    pedidos.map((c)=>(
+                                        <option value={p.id_pedido}>{p.fecha_entrega}</option>
                                     )):
-                                        <option value='F'>No Contiene mas cursos</option>
+                                        <option value='F'>Termino con el pedido</option>
                                     }
                                 </select>
                         </div>
                         <div className='col-4'>
                         <label>Observacion </label>
                             <input 
-                            id='descripcion'
+                            id='pedidos'
                             disabled
                             className='form-control'
-                            value={'url/ruta/'+id_alumno} 
+                            value={'url/ruta/'+id_cliente} 
                             
                             />
                         </div>
                  </div>    
-                <button type="button" onClick={() => grabar_inscripciones_alumno()}  className="btn btn-primary" >Guardar</button>
+                <button type="button" onClick={() => grabar_solicitudpedidos_cliente()}  className="btn btn-primary" >Guardar</button>
                    
                  
                 </div>

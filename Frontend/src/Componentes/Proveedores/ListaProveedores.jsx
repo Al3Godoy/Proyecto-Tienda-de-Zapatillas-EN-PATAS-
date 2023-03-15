@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom';
-import * as API from '../../servicios/servicios'
+import * as API from '../../servicio/servicio'
 import { } from 'bootstrap';
 import DataTable from 'react-data-table-component';
 
 export function ListaProveedores(){
-    const [clientes, setClientess] =useState([]);
+    const [clientes, setClientes] =useState([]);
     const [color, setColor] =useState('');
     const [mensajeSuccess, setmensajeSuccess] = useState('')
-    const [mensajeSuccessInscripcion, setmensajeSuccessInscripcion] = useState('')
+    const [mensajeSuccesssolicitudpedido, setmensajeSuccessSolicitudPedido] = useState('')
 
     // los filtros de busqueda
     const [nombre_apellido, setNombre_Apellido] = useState('');
@@ -17,7 +17,7 @@ export function ListaProveedores(){
     const [usuario, setUsuario] = useState('');
     const [email, setEmail] = useState('');
 
-    const [solicitud, setSolicitud] = useState([]);
+    const [solicitudpedido, setSolicitudPedido] = useState([]);
     const [pedidos, setPedidos] = useState([]);
     const [id_cliente, setIdCliente] = useState();
     const [id_pedido, setIdPedidos] = useState();
@@ -29,7 +29,7 @@ useEffect(()=>{
 },[]);
 
 // esta es la funcion para cambiar de estado 
-const CambioEstadoClientes  = async(id, estado)=>{
+const CambioEstadoCliente  = async(id, estado)=>{
     if(estado=='B'){
         setColor('danger')
     }else{
@@ -39,7 +39,7 @@ const CambioEstadoClientes  = async(id, estado)=>{
     const datos_enviar={
         estado: estado
     };
-    const respuesta = await API.CambioEstadoClientes(id, datos_enviar)
+    const respuesta = await API.CambioEstadoCliente(id, datos_enviar)
     if(respuesta.status){
         setmensajeSuccess(respuesta.mensaje)
         
@@ -115,8 +115,8 @@ const columns = [
       selector: row => row.id_cliente
     },
     {
-      name: 'CLIENTE',
-      selector: row => row.nombre_apellido+'
+      name: 'NOMBRE_APELLIDO',
+      selector: row => row.nombre_apellido
     },
     {
       name: 'DNI',

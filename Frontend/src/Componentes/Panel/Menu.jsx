@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Rutas, Rutas, Link } from 'react-router-dom'
+import { src, router, Link } from 'react-router-dom'
 import { Principal } from './Principal'
 export function Menu(){
     const [usuario, setUsuario] =useState('')
@@ -18,7 +18,7 @@ export function Menu(){
     return(
       <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <a className="navbar-brand" href="#">Sistema</a>
+            <a className="navbar-brand" href="#">EN PATAS</a>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -43,10 +43,18 @@ export function Menu(){
                   </a>
                   <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <Link className="dropdown-item" to={'/listar_clientes'}>Listar Clientes</Link>
-                    <Link className="dropdown-item" to={'/crear_cliente'}>Crear Cliente</Link>
+                    <Link className="dropdown-item" to={'/editar_cliente'}>Editar Cliente</Link>
                   </div>
                 </li>
-
+                <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Proveedores
+                  </a>
+                  <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <Link className="dropdown-item" to={'/listar_clientes'}>Listar Proveedores</Link>
+                    <Link className="dropdown-item" to={'/editar_cliente'}>Editar Proveedor</Link>
+                  </div>
+                </li>
                 <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Usuarios

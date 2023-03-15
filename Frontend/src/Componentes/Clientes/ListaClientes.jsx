@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Link } from 'react-router-dom';
-import * as API from '../../servicios/servicios'
-import { } from 'bootstrap';
-import DataTable from 'react-data-table-component';
+import { Link } from 'react-router-dom'
+import * as API from '../../servicio/servicio'
+import { } from 'bootstrap'
+import DataTable from 'react-data-table-component'
 
 export function ListaClientes(){
     const [clientes, setClientes] =useState([]);

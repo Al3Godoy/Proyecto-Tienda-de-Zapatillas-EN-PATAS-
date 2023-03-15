@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { Link } from "react-router-dom";
-import * as API from '../../servicios/servicios'
+import { Link } from "react-router-dom"
+import * as API from '../../servicio/servicio'
 
 export function Registro(){
     const [usuario, setUsuario] = useState('');

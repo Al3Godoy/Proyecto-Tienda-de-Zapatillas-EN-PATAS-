@@ -32,7 +32,7 @@ export function EditarCliente(){
 
         setFechaN(datos_alumno.fecha_formateada)
     }
-    const editar_alumno = ()=>{
+    const editar_cliente = ()=>{
         const datos_enviar={
             nombre_apellido: nombre_apellido,
             dni: dni,

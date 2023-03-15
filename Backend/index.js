@@ -26,7 +26,7 @@ app.use(function (req, res, next) {
     next();
 });
 //  rutas para mi aplicacion
-app.use(require('./router/router'))
+ app.use(require('./src/router/router'));
 // inicia el servidor NODE
 app.listen(app.get('puerto'), ()=>{
     console.log('El servidor corriendo en el puerto',app.get('puerto') )
