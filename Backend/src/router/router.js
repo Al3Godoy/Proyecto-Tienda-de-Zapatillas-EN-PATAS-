@@ -1,9 +1,9 @@
-const express= require('express');
-const router = express();
+const express = require('express');
+const router = express.Router();
 // libreria que utilizaremos para la encriptacion de los password
-const bcrypt= require('bcrypt');
+const bcrypt = require('bcrypt');
 // libreria que utilizaremos para la generacion de nuesrto token
-const jwt= require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 //////archivo de coneccion
 const mysqlConeccion = require('../database/database');
 //////fin archivo de coneccion
@@ -31,16 +31,16 @@ router.get('./pedidos', verificarToken, (req, res)=>{
 });
 
 
-router.put('./cambioestadocliente_mayorista/:id', (req, res)=>{
+router.put('./cambioestadocliente/:id', (req, res)=>{
      let id  = req.params.id;
      let estado=req.body.estado  
      
-     let query=`UPDATE cliente_mayorista SET estado='${estado}' WHERE id_cliente='${id}'`;
+     let query=`UPDATE client SET estado='${estado}' WHERE id_cliente='${id}'`;
      mysqlConeccion.query(query, (err, registros)=>{
         if(!err){
             res.json({
                 status: true,
-                mensaje:"El estado del Cliente Mayorista se cambio correctamente"
+                mensaje:"El estado del Cliente se cambio correctamente"
             });
         }else{
             res.json({
@@ -54,7 +54,7 @@ router.put('./cambioestadocliente_mayorista/:id', (req, res)=>{
 
 router.put('./altapedido/:id', (req, res)=>{
     let id  = req.params.id;
-    let query=`UPDATE pedidos SET estado='A' WHERE id_pedidos='${id}'`;
+    let query=`UPDATE pedidos SET estado='a' WHERE id_pedidos='${id}'`;
 
      mysqlConeccion.query(query, (err, registros)=>{
         if(!err){
@@ -86,9 +86,9 @@ router.get('./pedidos/:id_pedidos',(req, res)=>{
     });
 
 router.post('./pedidos', (req, res)=>{
-    const { descripcion } =req.body
+    const { cantidad } =req.body
      console.log(req.body);
-            let query=`INSERT INTO pedidos (descripcion, estado) VALUES ('${descripcion}', 'A')`;
+            let query=`INSERT INTO pedidos (cantidad, estado) VALUES ('${cantidad}', 'A')`;
             mysqlConeccion.query(query, (err, registros)=>{
                 if(!err){
                     res.json({
@@ -105,20 +105,20 @@ router.post('./pedidos', (req, res)=>{
 
 //metodo para buscar un pedidos por su descripcion
 router.get('./busqueda_pedidos', (req, res)=>{
-    const descripcion =req.body.descripcion
+    const cantidad =req.body.cantidad
     console.log(nombre)
     let query;
     if(nombre){
          console.log('hola ingresa a la primer  condicion')
-        query=`SELECT concat_ws(' ', nombre_apellido) clientes, d.descripcion pedidos 
+        query=`SELECT concat_ws(' ', cantidad) clientes, na.nombre_apellido pedidos 
         FROM proyecto_final_an_godoyalmaraz.clientes c 
-        inner join clientes_pedidos cp on cp.id_cliente=cm.id_cliente 
-        inner join pedidos p on p.id_pedido=cp.id_pedido  where p.descripcion like '%${descripcion}%'`;
+        inner join clientes_pedidos cp on cp.id_cliente=c.id_cliente 
+        inner join pedidos p on p.id_pedido=cp.id_pedido  where p.cantidad like '%${cantidad}%'`;
     }else{
         console.log('hola ingresa en la segunda condicion')
-        query=`SELECT concat_ws(' ', nombre_apellido) clientes, d.descripcion pedidos 
-        FROM proyecto_final_an_godoyalmaraz.clientes a 
-        inner join cliente_pedido cp on cp.id_cliente=c.id_cliente 
+        query=`SELECT concat_ws(' ', cantidad) clientes, na.nombre_apellido pedidos 
+        FROM proyecto_final_an_godoyalmaraz.clientes c 
+        inner join clientes_pedidos cp on cp.id_cliente=c.id_cliente 
         inner join pedidos p on p.id_pedido=cp.id_pedido `;
     }
    
@@ -132,11 +132,10 @@ router.get('./busqueda_pedidos', (req, res)=>{
                 });
            
         }else{
-            // console.log(err)
-            res.send('Hubo un error en el servidor');
+               res.send('Hubo un error en el servidor');
         }
     })
-        
+     
     
 });
 
@@ -220,7 +219,7 @@ router.post('./buscar_clientes', (req, res)=>{
     
     let {nombre_apellido, DNi, usuario, email}=req.body  
 
-            var query='select * from clientes where 1 ';
+            let query='select * from clientes where 1 ';
             if(nombre_apellido){
                 query=query +`AND nombre_apellido like '%${nombre_apellido}%'`;
             }
@@ -235,12 +234,9 @@ router.post('./buscar_clientes', (req, res)=>{
             if(email){
                 query=query +`AND email = '${email}'`;
             }
-            // console.log(query);
-
-            mysqlConeccion.query(query, (err, rows)=>{
+                     mysqlConeccion.query(query, (err, rows)=>{
                 if(!err){
-                    // console.log(rows);
-                    res.json(rows);
+                      res.json(rows);
                 }else{
                     console.log(err)
                 }
@@ -254,7 +250,7 @@ router.get('./Clientes_cantidad_Pedidos', verificarToken, (req, res)=>{
         if(error){
             res.sendStatus(403);
         }else{
-            const query='SELECT T.id_cliente, T.nombre_apellido, T.DNi, T.usuario, T.email from (SELECT A.id_cliente, CONCAT_WS(" ", nombre_apellido ) cliente, COUNT(id_pedido) cantidad_Pedidos FROM clientes as C inner join Pedidos as PE ON PE.id_cliente=cm.id_cliente LEFT join pedido PE ON PE.id_pedido=PE.id_pedido where estado = "A" GROUP by id_cliente) AS T order by T.cantidad_Pedidos DESC';
+            const query='SELECT T.id_cliente, T.nombre_apellido, T.DNi, T.usuario, T.email from (SELECT A.id_cliente, CONCAT_WS(" ", nombre_apellido ) cliente, COUNT(id_pedido) cantidad_Pedidos FROM clientes as C inner join Pedidos as PE ON PE.id_cliente=c.id_cliente LEFT join pedido PE ON PE.id_pedido=PE.id_pedido where estado = "a" GROUP by id_cliente) AS T order by T.cantidad_Pedidos DESC';
             mysqlConeccion.query(query, (err, rows)=>{
                 if(!err){
                     res.json(rows);
@@ -266,39 +262,7 @@ router.get('./Clientes_cantidad_Pedidos', verificarToken, (req, res)=>{
     });    
 });
 
-//  // Devolver los datos de un cliente puntual que recibamos el ID
 
-// router.get('/clientes/:id_cliente', (req, res)=>{
-//     const  parametro  = req.params.id_cliente;
-//     if(esNumero(parametro)){
-//         res.json(
-//             {
-//                 status: false,
-//                 mensaje:"El parametro que se espera tiene ser un numero entero"
-//             });
-//     }else{
-//                 mysqlConeccion.query('select *, DATE_FORMAT(fecha_nacimiento, "%Y-%m-%d") as fecha_formateada from clientes where id_cliente=?',[parametro], (err, rows)=>{
-//                     if(!err){
-//                         if(rows.length!=0){
-//                             res.json(rows);
-//                         }else{
-//                             res.json(
-//                                 {
-//                                     status: false,
-//                                     mensaje:"El ID del cliente no existe en la base de datos."
-//                                 });
-//                         }    
-//                     }else{
-//                         res.json(
-//                         {
-//                             status: false,
-//                             mensaje:"Error en el servidor."
-//                         });
-//                     }
-//                 });
-               
-//             }
-// })
 
 //metodo para insertar clientes a travez del metodo POST
 router.post('./clientes', (req, res)=>{
@@ -412,10 +376,10 @@ router.get('./usuarios_empresa', verificarToken, (req, res)=>{
 ////////////////////////////////////////////
 
 
-router.post('./login', (req, res)=>{
+router.post('./login', (req, res) => {
     const {usuario, password} =req.body
     if(usuario!=undefined && password!=undefined){
-        mysqlConeccion.query('select u.id,u.apellido_nombre, u.usuario,  u.password,  u.email  from usuario_empresa u where u.estado="a" AND usuario=?',[usuario], (err, rows)=>{
+        mysqlConeccion.query('select u.id,u.apellido_nombre, u.usuario,  u.password,  u.email  from usuario u where u.estado="a" AND usuario=?',[usuario], (err, rows)=>{
             if(!err){
                 if(rows.length!=0){
                     const bcryptPassword = bcrypt.compareSync(password, rows[0].password);
@@ -462,12 +426,28 @@ router.post('./login', (req, res)=>{
 
 ////////////registro de usuarios //////////////
 router.post('./registro', async(req, res)=>{
-    const { apellido_nombre, usuario, password, email} =req.body
+    try {
+    const { usuario, password, email, nombre_apellido, DNi } = req.body;
+    const tipoUsuario = req.body.tipoUsuario;
     let hash = bcrypt.hashSync(password,10);
-    
-// aca  consulto si existe ya ese nombre en la bd
-    let query=`INSERT INTO usuarios (apellido_nombre, usuario, password, email,  fecha_creacion) VALUES ('${apellido_nombre}''${usuario}','${hash}','${email}',,NOW())`;
-    mysqlConeccion.query(query, (err, registros)=>{
+    const newUsuario = await usuario.create({
+        usuario,
+        password,
+        email,
+        nombre_apellido,
+        DNi,
+        tipoUsuario // agregamos esta línea para guardar el tipo de usuario
+      });
+       // Si todo sale bien, respondemos con un código HTTP 201 (Created)
+        res.status(201).json({ status: true, mensaje: 'Usuario creado exitosamente.' });
+        } catch (error) {
+        // Si hubo un error al procesar la petición, respondemos con un código HTTP 500 (Internal Server Error)
+            console.error(error);
+        res.status(500).json({ status: false, mensaje: 'Hubo un error al crear el usuario.' });
+        }
+        // aca  consulto si existe ya ese nombre en la bd
+    let query=`INSERT INTO usuarios (nombre_apellido, usuario, password, email,  fecha_creacion) VALUES ('${nombre_apellido}''${usuario}','${hash}','${email}',,NOW())`;
+    mysqlConeccion.query(query, (err, registro)=>{
         if(!err){
             res.json({
                 status: true,
@@ -489,7 +469,14 @@ router.put('./resetpassword/:id', (req, res)=>{
      const { password } =req.body 
      let hash = bcrypt.hashSync(password,10); 
     //  generamos la query de modificacion del password
-     let query=`UPDATE usuarios_empresa SET password='${hash}' WHERE id='${id}'`;
+     let query=`UPDATE usuario 
+     JOIN proveedores ON usuario.id_proveedor = proveedores.id_proveedor
+     JOIN clientes ON usuario.id_cliente = clientes.id_cliente
+     JOIN usuarios_empresas ON usuario.id_usuario_empresa = usuarios_empresas.id_usuario_empresa
+     SET password='${hash}'
+     WHERE proveedores.id_proveedor = <valor del id_proveedor>
+       AND clientes.id_cliente = <valor del id_cliente>
+       AND usuarios_empresas.id_usuario_empresa = <valor del id_usuario_empresa>`;
      mysqlConeccion.query(query, (err, registros)=>{
         if(!err){
             res.send('El Id que editamos es : '+id+' y cambiamos el password! Muchas gracias!');
@@ -501,6 +488,7 @@ router.put('./resetpassword/:id', (req, res)=>{
     
 });
 
+                ////////////////////reset Password Clientes/////////////////////
 router.put('./resetpassword/:id', (req, res)=>{
     // asigna a id_usuario el valor que recibe por el parametro 
      let id  = req.params.id;
@@ -520,6 +508,8 @@ router.put('./resetpassword/:id', (req, res)=>{
     
 });
 
+
+ ////////////////////reset Password Proveedores/////////////////////
 router.put('./resetpassword/:id', (req, res)=>{
     // asigna a id_usuario el valor que recibe por el parametro 
      let id  = req.params.id;
@@ -539,10 +529,34 @@ router.put('./resetpassword/:id', (req, res)=>{
     
 });
 
-router.put('./bajausuario/:id', (req, res)=>{
+
+ ////////////////////reset Password Usuarios_empresa/////////////////////
+router.put('./resetpassword/:id', (req, res)=>{
     // asigna a id_usuario el valor que recibe por el parametro 
      let id  = req.params.id;
-     let query=`UPDATE usuarios_empresa SET estado='B' WHERE id='${id}'`;
+    // //asigna el valor que recibe  en el Body 
+     const { password } =req.body 
+     let hash = bcrypt.hashSync(password,10); 
+    //  generamos la query de modificacion del password
+     let query=`UPDATE usuarios_empresa SET password='${hash}' WHERE id='${id}'`;
+     mysqlConeccion.query(query, (err, registros)=>{
+        if(!err){
+            res.send('El Id que editamos es : '+id+' y cambiamos el password! Muchas gracias!');
+        }else{
+            console.log(err)
+        }
+    })
+    
+});
+
+////////////////////////////////////////////////////
+//////////////// ALTA y BAJA //////////////////////
+///////////////////////////////////////////////////
+
+router.put('./bajausuarios_empresa/:id', (req, res)=>{
+    // asigna a id_usuario el valor que recibe por el parametro 
+     let id  = req.params.id;
+     let query=`UPDATE usuarios_empresa SET estado='b' WHERE id='${id}'`;
      mysqlConeccion.query(query, (err, registros)=>{
         if(!err){
             res.json({
@@ -556,10 +570,10 @@ router.put('./bajausuario/:id', (req, res)=>{
     
 });
 
-router.put('./altausuario/:id', (req, res)=>{
+router.put('./altausuarios_empresa/:id', (req, res)=>{
     // asigna a id_usuario el valor que recibe por el parametro 
      let id  = req.params.id;
-     let query=`UPDATE usuarios_empresa SET estado='A' WHERE id='${id}'`;
+     let query=`UPDATE usuarios_empresa SET estado='a' WHERE id='${id}'`;
      mysqlConeccion.query(query, (err, registros)=>{
         if(!err){
             res.json({
@@ -573,6 +587,40 @@ router.put('./altausuario/:id', (req, res)=>{
     
 });
 
+
+router.put('./bajacleintes/:id', (req, res)=>{
+    // asigna a id_usuario el valor que recibe por el parametro 
+     let id  = req.params.id;
+     let query=`UPDATE clientes SET estado='b' WHERE id='${id}'`;
+     mysqlConeccion.query(query, (err, registros)=>{
+        if(!err){
+            res.json({
+                status: true,
+                mensaje:"El usuario_empresa se dio de BAJA correctamente"
+            });
+        }else{
+            console.log(err)
+        }
+    })
+    
+});
+
+router.put('./altaclientes/:id', (req, res)=>{
+    // asigna a id_usuario el valor que recibe por el parametro 
+     let id  = req.params.id;
+     let query=`UPDATE clientes SET estado='A' WHERE id='${id}'`;
+     mysqlConeccion.query(query, (err, registros)=>{
+        if(!err){
+            res.json({
+                status: true,
+                mensaje:"El usuario_empresa se dio de Alta correctamente"
+            });
+        }else{
+            console.log(err)
+        }
+    })
+    
+});
 
 ///////////////////////////////////////////
 /////////////solicitud de pedido////////////////
@@ -634,19 +682,6 @@ router.post('./solicitud', (req, res) => {
 });
 
 
-
-// router.get('/cursosSinAsignar/:id_cliente',(req, res)=>{
-
-//     const  { id_cliente } = req.params;
-//             mysqlConeccion.query('SELECT id_pedido, nombre FROM pedido WHERE id_pedido NOT IN (SELECT id_pedido FROM inscripciones WHERE id_cliente = ?)',[id_cliente], (err, registros)=>{
-//                 if(!err){
-//                     res.json(registros);
-//                 }else{
-//                     console.log(err)
-//                 }
-//             })
-   
-// });
 
 router.post('./SolicitudPedido', (req, res)=>{
     const { id_cliente, id_pedido, descripcion } =req.body

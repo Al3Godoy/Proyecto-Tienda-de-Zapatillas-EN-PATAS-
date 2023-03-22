@@ -17,10 +17,10 @@ export function ListaMarcas_Calzados(){
     const [id_marca_calzado, setIdMarca_Calzado] = useState();
     const [id_stock, setIdStock] = useState();
    
-};
+}
     // aqui se carga por primera vez la variable
 useEffect(()=>{
-    API.getmarca_calzado().then(getMarcas_Calzados)
+    API.getmarca_calzado().then(setMarcas_Calzado)
 },[]);
 
 // esta es la funcion para cambiar de estado 
@@ -64,7 +64,7 @@ const buscar_marca_calzado = ()=>{
 const limpiar_filtros = ()=>{
     setDescripcion(''),
     
-    API.getMarcas_Calzados().then(setMarcas_Calzados)
+    API.setMarcas_Calzado().then(setMarcas_Calzados)
    
 }
 
@@ -77,7 +77,7 @@ const grabar_marca_calzado  = async()=>{
         descripcion: 'http://url/ruta/'+id_pedido
     };
      API.SaveMarca_Calzado(datos_enviar);
-    setmensajeSuccessMarca_Calzado;('Se Cargo su Pedido con Gran Exito')
+    setmensajeSuccess;('Se Cargo su Pedido con Gran Exito')
     setTimeout(()=>{
         setmensajeSuccessMarca_Calzado('')
         trae_marca_calzado_stock(id_pedido)
@@ -116,11 +116,11 @@ const columns = [
         }
     ]
 
-    export default function MyComponent() {
-        const handleClick = (id) => {
-          console.log("el Id es", id);
-        };
-    }
+   
+    const handleButtonClick = (e, id) => {
+        e.preventDefault();
+        console.log("el Id es", id);
+    };
 
 return(
         <div className="card">
@@ -142,7 +142,7 @@ return(
                             id='descripcion'
                             className='form-control'
                             value={descripcion} 
-                            onChange={(event)=>serDescripcion(event.target.value)}
+                            onChange={(event)=>setDescripcion(event.target.value)}
                             />
                         </div>                              
                        

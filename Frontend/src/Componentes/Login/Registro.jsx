@@ -85,10 +85,10 @@ export function Registro(){
                   <label for=""> Nombre y Apelllido de Usuario</label>
                   <input 
                   type="text" required
-                  value={apellido_nombre} 
+                  value={nombre_apellido} 
                   className="form-control" 
                   placeholder="Nombre y Apelllido de Usuario" 
-                  onChange={(event)=>setnombre_apellido(event.target.value)} />
+                  onChange={(event)=>setNombre_Apellido(event.target.value)} />
                   <small id="helpId" className="text-muted">&nbsp;</small>
                 </div>
                 <div className="form-group">

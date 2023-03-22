@@ -45,7 +45,7 @@ export function Login(){
                 id="floatingInput" 
                 placeholder="Usuario"
                 value={username}
-                onChange={(event)=>setUsername(event.target.value)}
+                onChange={(event)=>setUsuario(event.target.value)}
                 />
                 <label for="floatingInput">Usuario</label>
                 </div>
@@ -61,7 +61,7 @@ export function Login(){
                 <label for="floatingPassword">Password</label>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Ingresar</button>
-                <Link to={'/registro'}>
+                <Link to={'./registro'}>
                     Registro
                 </Link>
         </form>

@@ -6,7 +6,7 @@ import { } from 'bootstrap';
 import DataTable from 'react-data-table-component';
 
 export function ListaTipo_Calzados(){
-    const [tipo_calzados, setTipo_Calzados] =useState([]);
+    const [tipos_calzados, setTipos_Calzados] =useState([]);
     const [color, setColor] =useState('');
     const [mensajeSuccess, setmensajeSuccess] = useState('')
     const [mensajeSuccessDescripcion, setmensajeSuccessDescripcion] = useState('')
@@ -20,11 +20,11 @@ export function ListaTipo_Calzados(){
 };
     // aqui se carga por primera vez la variable
 useEffect(()=>{
-    API.gettipo_calzado().then(getTipo_Calzados)
+    API.gettipo_calzado().then(getTipos_Calzados)
 },[]);
 
 // esta es la funcion para cambiar de estado 
-const CambioEstadoTipo_Calzados  = async(id, estado)=>{
+const CambioEstadoTipos_Calzados  = async(id, estado)=>{
     if(estado=='a'){
         setColor('danger')
     }else{
@@ -34,7 +34,7 @@ const CambioEstadoTipo_Calzados  = async(id, estado)=>{
     const datos_enviar={
         estado: estado
     };
-    const respuesta = await API.CambioEstadoTipo_Calzados(id, datos_enviar)
+    const respuesta = await API.CambioEstadoTipos_Calzados(id, datos_enviar)
     if(respuesta.status){
         setmensajeSuccess(respuesta.mensaje)
         
@@ -116,11 +116,11 @@ const columns = [
         )
     } ]
 
-    export default function MyComponent() {
-        const handleClick = (id) => {
-          console.log("el Id es", id);
-        };
-    }
+
+    const handleButtonClick = (e, id) => {
+        e.preventDefault();
+        console.log("el Id es", id);
+    };
     return(
         
         <div className="card">
@@ -175,7 +175,7 @@ const columns = [
                 {
                 mensajeSuccessNuevaMarca?
                     <div className="alert alert-success" role="alert">
-                        {mensajeSuccessNuevaMarca}
+                        {mensajeSuccessNuevoTipoCalzado}
                     </div>:''
                 }
                 <div className="form-group">
@@ -184,11 +184,11 @@ const columns = [
                             <label for="">Nombre del tipo de calzado</label>
                    
                             <select onChange={(event)=>setIdTipo_Calzado(event.target.value)} className='form-control'>
-                                    <option>Seleccionar una Marca</option>
+                                    <option>Seleccionar un Tipo de Calzado</option>
                                         {
                                     cursos?
                                     cursos.map((c)=>(
-                                        <option value={c.id_marca_calzado}>{c.descripcion}</option>
+                                        <option value={c.id_tipo_calzado}>{c.descripcion}</option>
                                     )):
                                         <option value='F'>No hay más tipos de calzado</option>
                                     }

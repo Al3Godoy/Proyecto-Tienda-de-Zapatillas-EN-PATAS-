@@ -52,7 +52,7 @@ export function EditarMarca_Calzado(){
                   name="" id="" className="form-control" placeholder="" aria-describedby="helpId"/>
                   <small id="helpId" className="text-muted">&nbsp;</small>
                 </div>
-               
+             </div>  
                 <div className="form-group">
                     <button  onClick={editar_marca_calzado}  type="button" className="btn btn-primary">Editar</button>
                     <Link to={'/listar_alumnos'}><button type="button" className="btn btn-secondary">Volver al listado</button></Link>
