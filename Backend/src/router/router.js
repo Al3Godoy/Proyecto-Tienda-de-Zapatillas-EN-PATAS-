@@ -35,8 +35,8 @@ router.put('./cambioestadocliente/:id', (req, res)=>{
      let id  = req.params.id;
      let estado=req.body.estado  
      
-     let query=`UPDATE client SET estado='${estado}' WHERE id_cliente='${id}'`;
-     mysqlConeccion.query(query, (err, registros)=>{
+     let query=`UPDATE cliente SET estado='${estado}' WHERE id_cliente='${id}'`;
+     mysqlConeccion.query(query, (err, registro)=>{
         if(!err){
             res.json({
                 status: true,
@@ -88,7 +88,7 @@ router.get('./pedidos/:id_pedidos',(req, res)=>{
 router.post('./pedidos', (req, res)=>{
     const { cantidad } =req.body
      console.log(req.body);
-            let query=`INSERT INTO pedidos (cantidad, estado) VALUES ('${cantidad}', 'A')`;
+            let query=`INSERT INTO pedidos (cantidad, estado) VALUES ('${cantidad}', 'a')`;
             mysqlConeccion.query(query, (err, registros)=>{
                 if(!err){
                     res.json({

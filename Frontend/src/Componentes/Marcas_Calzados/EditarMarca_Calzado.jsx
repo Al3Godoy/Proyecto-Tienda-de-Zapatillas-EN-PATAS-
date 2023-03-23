@@ -9,11 +9,11 @@ export function EditarMarca_Calzado(){
    
    
     useEffect(()=>{
-        trae_datos_marca_calzado(id_cliente)
+        trae_datos_marca_calzado(id_marca_calzado)
     },[])
 
     const trae_datos_marca_calzado  = async ()=>{
-        const datos_marca_calzado = await API.getMarca_CalzadoById(id_cliente)
+        const datos_marca_calzado = await API.getMarca_CalzadoById(id_marca_calzado)
         console.log(datos_marca_calzado);
         setDescripcion(datos_marca_calzado.descripcion)
        
@@ -23,7 +23,7 @@ export function EditarMarca_Calzado(){
             descripcion: descripcion,
                        
         };
-        API.UpdateCliente(id_marca_calzado,datos_enviar);
+        API.UpdateMarca_Calzado(id_marca_calzado,datos_enviar);
         setmensajeSuccess('Se Edito la Marca de Calzado')
             setTimeout(()=>{
                 setmensajeSuccess('')
@@ -55,7 +55,7 @@ export function EditarMarca_Calzado(){
              </div>  
                 <div className="form-group">
                     <button  onClick={editar_marca_calzado}  type="button" className="btn btn-primary">Editar</button>
-                    <Link to={'/listar_alumnos'}><button type="button" className="btn btn-secondary">Volver al listado</button></Link>
+                    <Link to={'/ListaMarcas_Calzado'}><button type="button" className="btn btn-secondary">Volver al listado</button></Link>
                 </div>
             </div>
             <div className="card-footer text-muted">

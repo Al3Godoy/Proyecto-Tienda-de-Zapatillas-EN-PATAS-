@@ -7,7 +7,7 @@ export function CrearMarca_Calzado(){
     const [mensajeSuccess, setmensajeSuccess] = useState('')
     const [descripcion, setDescripcion] = useState('');
        
-    const crearMarca_Calzado = ()=>{
+    const CrearMarca_Calzado = ()=>{
         const datos_marca_calzado={
             descripcion: descripcion
         };
@@ -16,7 +16,7 @@ export function CrearMarca_Calzado(){
         setmensajeSuccess('Se agrego una nueva marca de calzado')
             setTimeout(()=>{
                 setmensajeSuccess('')
-                window.location.href('/Tipo_Calzados')
+                window.location.href('/Marcas_Calzados')
             }, 2000)
     }
 }
@@ -45,7 +45,7 @@ export function CrearMarca_Calzado(){
                 
                 <div className="row">
                     <div className='col-3 mt-3'>
-                        <button  onClick={crearMarca_Calzado}  type="button" className="btn btn-primary">Guardar</button>
+                        <button  onClick={CrearMarca_Calzado}  type="button" className="btn btn-primary">Guardar</button>
                         <Link to={'/listaMarcas_Calzados'}><button type="button" className="btn btn-secondary">Volver al listado</button></Link>
                     </div>
                 </div>

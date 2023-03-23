@@ -19,7 +19,7 @@ export function ListaPedidos(){
 
     const [solicitudpedido, setSolicitudPedido] = useState([]);
     const [id_cliente_pedido, setIdCliente_Pedido] = useState();
-    const [id_pedido, setIdPedidos] = useState();
+    const [id_pedido, setIdPedido] = useState();
 }
     // aqui se carga por primera vez la variable
 useEffect(()=>{
@@ -88,14 +88,14 @@ const grabar_solicitudpedido_cliente  = async()=>{
     const datos_enviar={
         id_pedido: id_cliente,
         id_cliente: id_pedido,
-        descripcion: 'http://url/ruta/'+id_cliente
+        descripcion: 'http://url/router/'+id_cliente
     };
     // console.log(datos_enviar)
     API.SaveSolicitudPedidoCliente(datos_enviar);
     setmensajeSuccessSolicitudPedido('Se Cargo su Pedido con Gran Exito')
     setTimeout(()=>{
         setmensajeSuccessSolicitudPedido('')
-        trae_solicitudpedido_cliente(id_alumno)
+        trae_solicitudpedido_cliente(id_cliente)
     }, 4000)
 }
 
@@ -143,7 +143,9 @@ const columns = [
     e.preventDefault();
     console.log("el Id es", id);
 };
-    return(
+   
+
+            return(
         <>
         <div className="card">
             {
@@ -159,7 +161,7 @@ const columns = [
                 <div className="card-body">
                     <div className='row'>
                         <div className='col-3'>
-                            <label>id_pedido </label>
+                            <label> id_pedido </label>
                             <input 
                             id='id_pedido'
                             className='form-control'
@@ -168,11 +170,11 @@ const columns = [
                             />
                         </div>
                         <div className='col-3'>
-                            <label>id_cliente </label>
+                            <label> id_cliente </label>
                             <input 
                             id='id_cliente'
                             className='form-control'
-                            value={nombre} 
+                            value={id_cliente} 
                             onChange={(event)=>setIdCliente(event.target.value)}
                             />
                         </div>
@@ -184,7 +186,7 @@ const columns = [
                             className='form-control'/>
                         </div>
                         <div className='col-3'>
-                        <label>cantidad </label>
+                        <label> cantidad </label>
                         <input 
                         value={cantidad} 
                         onChange={(event)=>setCantidad(event.target.value)}
@@ -233,10 +235,10 @@ const columns = [
                                     <option>Seleccionar Pedido</option>
                                         {
                                     pedidos?
-                                    pedidos.map((c)=>(
+                                    pedidos.map((p)=>(
                                         <option value={p.id_pedido}>{p.fecha_entrega}</option>
                                     )):
-                                        <option value='F'>Termino con el pedido</option>
+                                        <option value='F'>Termino con el Pedido</option>
                                     }
                                 </select>
                         </div>
@@ -259,22 +261,24 @@ const columns = [
                     <thead className="thead-inverse">
                         <tr>
                             
-                            <th>Curso</th>
-                            <th>Nota</th>
-                            <th>Fecha inscripcion</th>
-                            <th>Comentario</th>
+                            <th>ID Pedido</th>
+                            <th>ID Cliente</th>
+                            <th>ID Stock</th>
+                            <th>Fecha Entrega</th>
+                            <th>Cantidad</th>
                             
                         </tr>
                     </thead>
                     <tbody>
                     {
-                    inscripciones?
-                    inscripciones.map((inscrip)=>(
+                    solicitudpedido?
+                    solicitudpedido.map((solipe)=>(
                             <tr>
-                                <td scope="row">{inscrip.curso}</td>
-                                <td scope="row">{inscrip.nota}</td>
-                                <td scope="row">{inscrip.fecha_formateada}</td>
-                                <td scope="row">{inscrip.descripcion}</td>
+                                <td scope="row">{solipe.id_pedido}</td>
+                                <td scope="row">{solipe.id_cliente}</td>
+                                <td scope="row">{solipe.id_stock}</td>
+                                <td scope="row">{solipe.fecha_entrega}</td>
+                                <td scope="row">{solipe.cantidad}</td>
                                 </tr>
                     ))
                     :

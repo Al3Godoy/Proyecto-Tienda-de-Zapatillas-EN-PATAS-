@@ -121,7 +121,7 @@ const columns = [
         e.preventDefault();
         console.log("el Id es", id);
     };
-    return(
+            return(
         
         <div className="card">
             {
@@ -186,9 +186,9 @@ const columns = [
                             <select onChange={(event)=>setIdTipo_Calzado(event.target.value)} className='form-control'>
                                     <option>Seleccionar un Tipo de Calzado</option>
                                         {
-                                    cursos?
-                                    cursos.map((c)=>(
-                                        <option value={c.id_tipo_calzado}>{c.descripcion}</option>
+                                    tipos_calzadosos?
+                                    tipos_calzados_calzados.map((tc)=>(
+                                        <option value={tc.id_tipo_calzado}>{tc.descripcion}</option>
                                     )):
                                         <option value='F'>No hay más tipos de calzado</option>
                                     }
@@ -200,7 +200,7 @@ const columns = [
                             id='descripcion'
                             disabled
                             className='form-control'
-                            value={'url/ruta/'+id_tipo_calzado} 
+                            value={'url/router/'+id_tipo_calzado} 
                             
                             />
                         </div>

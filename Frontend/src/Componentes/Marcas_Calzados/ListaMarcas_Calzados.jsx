@@ -9,7 +9,7 @@ export function ListaMarcas_Calzados(){
     const [marcas_calzados, setMarcas_Calzados] =useState([]);
     const [color, setColor] =useState('');
     const [mensajeSuccess, setmensajeSuccess] = useState('')
-    const [mensajeSuccessDescripcion, setmensajeSuccessDescripcion] = useState('')
+    const [mensajeSuccessdescripcion, setmensajeSuccessDescripcion] = useState('')
 
     // los filtros de busqueda
     const [descripcion, setDescripcion] = useState('');
@@ -64,7 +64,7 @@ const buscar_marca_calzado = ()=>{
 const limpiar_filtros = ()=>{
     setDescripcion(''),
     
-    API.setMarcas_Calzado().then(setMarcas_Calzados)
+    API.setMarcas_Calzados().then(setMarcas_Calzados)
    
 }
 
@@ -74,7 +74,7 @@ const grabar_marca_calzado  = async()=>{
     const datos_enviar={
         id_marca_calzado: id_stock,
         id_stock: id_pedido,
-        descripcion: 'http://url/ruta/'+id_pedido
+        descripcion: 'http://url/router/'+id_pedido
     };
      API.SaveMarca_Calzado(datos_enviar);
     setmensajeSuccess;('Se Cargo su Pedido con Gran Exito')
@@ -122,7 +122,7 @@ const columns = [
         console.log("el Id es", id);
     };
 
-return(
+            return(
         <div className="card">
             {
                 mensajeSuccess?
@@ -184,9 +184,9 @@ return(
                             <select onChange={(event)=>setIdMarca_Calzado(event.target.value)} className='form-control'>
                                     <option>Seleccionar una Marca</option>
                                         {
-                                    cursos?
-                                    cursos.map((c)=>(
-                                        <option value={c.id_marca_calzado}>{c.descripcion}</option>
+                                    marcas_calzados?
+                                    marcas_calzados.map((mc)=>(
+                                        <option value={mc.id_marca_calzado}>{mc.descripcion}</option>
                                     )):
                                         <option value='F'>todas las marcas fueron seleccionadas</option>
                                     }
@@ -198,7 +198,7 @@ return(
                             id='descripcion'
                             disabled
                             className='form-control'
-                            value={'url/ruta/'+id_marca_calzado} 
+                            value={'url/router/'+id_marca_calzado} 
                             
                             />
                         </div>
@@ -226,7 +226,7 @@ return(
                     ))
                     :
                     <tr>
-                        <td colSpan={4} scope="row">No tiene solicitud de Pedidos</td>
+                        <td colSpan={4} scope="row">Ya fue seleccionada la Marca</td>
                     </tr>
                     }
                     </tbody>

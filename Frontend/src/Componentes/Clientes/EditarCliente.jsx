@@ -19,7 +19,7 @@ export function EditarCliente(){
     },[])
 
     const trae_datos_cliente  = async ()=>{
-        const datos_cliente = await API.getAlumnoById(id_cliente)
+        const datos_cliente = await API.getClienteById(id_cliente)
         console.log(datos_cliente);
         setNombre_Apellido(datos_cliente.nombre_apellido)
         setDni(datos_cliente.DNi)
@@ -30,7 +30,6 @@ export function EditarCliente(){
         setCP(datos_cliente.cp)
         setDomicilio(datos_cliente.domicilio)
 
-        setFechaN(datos_alumno.fecha_formateada)
     }
     const editar_cliente = ()=>{
         const datos_enviar={
@@ -68,7 +67,7 @@ export function EditarCliente(){
                   <label for="">Nombre_Apellido</label>
                   <input 
                   type="text"
-                   value={nombre} 
+                   value={nombre_apellido} 
                    onChange={(event)=>setNombre_Apellido(event.target.value)}
                   name="" id="" className="form-control" placeholder="" aria-describedby="helpId"/>
                   <small id="helpId" className="text-muted">&nbsp;</small>
@@ -77,7 +76,7 @@ export function EditarCliente(){
                   <label for="">DNi</label>
                   <input 
                   type="text"
-                   value={apellido} 
+                   value={dni} 
                    onChange={(event)=>setDNi(event.target.value)}
                   name="" id="" className="form-control" placeholder="" aria-describedby="helpId"/>
                   <small id="helpId" className="text-muted">&nbsp;</small>
@@ -86,7 +85,7 @@ export function EditarCliente(){
                   <label for="">Usuario</label>
                   <input 
                   type="text"
-                   value={dni} 
+                   value={usuario} 
                    onChange={(event)=>setUsuario(event.target.value)}
                   name="" id="" className="form-control" placeholder="" aria-describedby="helpId"/>
                   <small id="helpId" className="text-muted">&nbsp;</small>
@@ -95,7 +94,7 @@ export function EditarCliente(){
                   <label for="">Email</label>
                   <input 
                   type="date"
-                   value={fecha_nacimiento} 
+                   value={email} 
                    onChange={(event)=>setEmail(event.target.value)}
                   name="" id="" className="form-control" placeholder="" aria-describedby="helpId"/>
                   <small id="helpId" className="text-muted">&nbsp;</small>
@@ -104,7 +103,7 @@ export function EditarCliente(){
                   <label for="">Ciudad</label>
                   <input 
                   type="text"
-                   value={domicilio} 
+                   value={ciudad} 
                    onChange={(event)=>setCiudad(event.target.value)}
                   name="" id="" className="form-control" placeholder="" aria-describedby="helpId"/>
                   <small id="helpId" className="text-muted">&nbsp;</small>
@@ -113,7 +112,7 @@ export function EditarCliente(){
                   <label for="">Provincia</label>
                   <input 
                   type="text"
-                   value={estado_civil} 
+                   value={provincia} 
                    onChange={(event)=>setProvincia(event.target.value)}
                   name="" id="" className="form-control" placeholder="" aria-describedby="helpId"/>
                   <small id="helpId" className="text-muted">&nbsp;</small>
@@ -122,17 +121,17 @@ export function EditarCliente(){
                   <label for="">CP</label>
                   <input 
                   type="text"
-                   value={sexo} 
+                   value={cp} 
                    onChange={(event)=>setCP(event.target.value)}
                   name="" id="" className="form-control" placeholder="" aria-describedby="helpId"/>
                   <small id="helpId" className="text-muted">&nbsp;</small>
                 </div>
                 <div className="form-group col-4">
-                  <label for="">CP</label>
+                  <label for="">Domicilio</label>
                   <input 
                   type="text"
-                   value={sexo} 
-                   onChange={(event)=>setCP(event.target.value)}
+                   value={domicilio} 
+                   onChange={(event)=>setDomicilio(event.target.value)}
                   name="" id="" className="form-control" placeholder="" aria-describedby="helpId"/>
                   <small id="helpId" className="text-muted">&nbsp;</small>
                 </div>
@@ -140,7 +139,7 @@ export function EditarCliente(){
                 
                 <div className="form-group">
                     <button  onClick={editar_cliente}  type="button" className="btn btn-primary">Editar</button>
-                    <Link to={'/listar_alumnos'}><button type="button" className="btn btn-secondary">Volver al listado</button></Link>
+                    <Link to={'/ListaClientes'}><button type="button" className="btn btn-secondary">Volver al listado</button></Link>
                 </div>
             </div>
             <div className="card-footer text-muted">
